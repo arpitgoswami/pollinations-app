@@ -811,6 +811,19 @@ section {
   .contact-info .section-subtitle {
     text-align: center;
   }
+  
+  .inspiration-content {
+    padding: 0 var(--space-4);
+  }
+  
+  .inspiration-quote {
+    margin-left: 0;
+    text-align: center;
+    border-left: none;
+    border-top: 3px solid rgba(255, 255, 255, 0.5);
+    padding-left: 0;
+    padding-top: var(--space-6);
+  }
 }
 
 @media (max-width: 768px) {
@@ -829,6 +842,23 @@ section {
   .hero-actions {
     flex-direction: column;
     align-items: stretch;
+  }
+  
+  .inspiration {
+    padding: var(--space-20) 0;
+    min-height: 60vh;
+  }
+  
+  .inspiration-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+  
+  .inspiration-text {
+    font-size: 1.125rem;
+  }
+  
+  .inspiration-quote {
+    font-size: 1.25rem;
   }
   
   .form-row {
