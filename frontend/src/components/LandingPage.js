@@ -156,6 +156,33 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Nature Inspiration Section */}
+      <section id="inspiration" className="inspiration">
+        <div className="inspiration-background">
+          <img 
+            src="https://images.unsplash.com/photo-1503803548695-c2a7b4a5b875" 
+            alt="Peaceful landscape" 
+            className="background-image"
+          />
+          <div className="background-overlay"></div>
+        </div>
+        <div className="container">
+          <div className="inspiration-content">
+            <h2 className="inspiration-title">
+              Your Journey to Transformation Begins Here
+            </h2>
+            <p className="inspiration-text">
+              Just as nature finds its way through the toughest terrain, you too have the power to overcome 
+              any obstacle and bloom into your fullest potential. Every mountain conquered starts with a single step, 
+              every forest grown from a single seed.
+            </p>
+            <p className="inspiration-quote">
+              "The best time to plant a tree was 20 years ago. The second best time is now."
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Minimal About Section */}
       <section id="about" className="about">
         <div className="container">
