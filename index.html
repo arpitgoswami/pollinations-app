@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#fbfaf6" />
+    <title>PolliChat — Creative AI Workspace</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <div id="scrim" class="scrim" hidden></div>
+
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-top">
+          <div class="brand">
+            <span class="brand-badge" aria-hidden="true">
+              <svg
+                viewBox="0 0 4 5"
+                width="14"
+                height="17"
+                shape-rendering="crispEdges"
+              >
+                <path
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                  d="M0 0h4v3H1v2H0ZM1 1h2v1H1Z"
+                />
+              </svg>
+            </span>
+            <span class="brand-name">PolliChat</span>
+          </div>
+
+          <button
+            id="closeSidebarBtn"
+            type="button"
+            aria-label="Close menu"
+            class="icon-btn mobile-only"
+          >
+            <span data-icon="x"></span>
+          </button>
+        </div>
+
+        <div class="sidebar-tabs">
+          <div id="modeTabs" class="tabs">
+            <button type="button" data-mode="chat">Chat</button>
+            <button type="button" data-mode="image">Image</button>
+          </div>
+        </div>
+
+        <div class="sidebar-nav">
+          <button id="newChatBtn" type="button" class="nav-btn is-filled">
+            <span data-icon="plus" data-size="18"></span>
+            New chat
+          </button>
+        </div>
+
+        <nav id="chatList" class="chat-list" aria-label="Conversations"></nav>
+
+        <div class="sidebar-foot">
+          <button id="openSettingsBtn" type="button" class="profile-btn">
+            <span class="profile-badge"
+              ><span data-icon="sliders" data-size="16"></span
+            ></span>
+            Settings
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <button
+            id="menuBtn"
+            type="button"
+            aria-label="Open menu"
+            class="icon-btn mobile-only"
+          >
+            <span data-icon="menu" data-size="20"></span>
+          </button>
+        </header>
+
+        <div id="messages" class="messages"></div>
+
+        <div id="composerWrap" class="composer-wrap">
+          <form id="composer" class="composer">
+            <div class="composer-box">
+              <div id="imageOptions" class="image-options" hidden>
+                <span>Image size</span>
+                <div id="sizeOptions" class="opt-group"></div>
+              </div>
+
+              <div class="composer-row">
+                <textarea
+                  id="input"
+                  rows="1"
+                  autocomplete="off"
+                  placeholder="Message PolliChat..."
+                ></textarea>
+
+                <div class="select-wrap">
+                  <select
+                    id="modelSelect"
+                    aria-label="Model"
+                    title="Model"
+                  ></select>
+                </div>
+
+                <button id="sendBtn" type="submit" class="send-btn"></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="settingsDialog" class="dialog">
+      <div class="dialog-body">
+        <div class="dialog-head">
+          <h2>Settings</h2>
+
+          <button
+            id="closeSettingsBtn"
+            type="button"
+            aria-label="Close"
+            class="icon-btn"
+          >
+            <span data-icon="x"></span>
+          </button>
+        </div>
+
+        <div class="field">
+          <label for="apiKeyInput">Pollinations API key</label>
+          <input
+            id="apiKeyInput"
+            type="password"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="sk_..."
+          />
+          <p class="help">
+            Stored only in this browser and sent only to Pollinations. Get one
+            at
+            <a
+              href="https://enter.pollinations.ai/keys"
+              target="_blank"
+              rel="noopener noreferrer"
+              >enter.pollinations.ai</a
+            >.
+          </p>
+        </div>
+
+        <div class="field switch-field">
+          <div>
+            <label for="freeOnlyToggle">Free models only</label>
+            <p id="modelStatus" class="help"></p>
+          </div>
+          <input
+            id="freeOnlyToggle"
+            type="checkbox"
+            class="switch"
+            role="switch"
+          />
+        </div>
+
+        <div class="field">
+          <label for="systemInput">
+            System prompt
+            <span class="optional">(optional)</span>
+          </label>
+          <textarea
+            id="systemInput"
+            rows="3"
+            placeholder="e.g. Answer briefly and in plain language."
+          ></textarea>
+        </div>
+
+        <div class="dialog-actions">
+          <button id="saveSettingsBtn" type="button" class="btn-primary">
+            Save changes
+          </button>
+
+          <button id="deleteAllBtn" type="button" class="btn-danger">
+            Delete all
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
