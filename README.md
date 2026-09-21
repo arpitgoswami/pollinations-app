@@ -1,3 +1,5 @@
+<img width="1917" height="1078" alt="image" src="https://github.com/user-attachments/assets/2b720071-42c8-4333-bbe9-5ba043eb1961" />
+
 # Pollinations AI
 
 **Pollinations AI** is an interactive, AI‑driven web application that brings intelligent insights directly into your browser. Built with modern front‑end technologies, it delivers real‑time data visualizations, personalized recommendations, and a sleek, responsive interface—all hosted on GitHub Pages.
