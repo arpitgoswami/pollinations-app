@@ -27,17 +27,8 @@
         <div class="sidebar-top">
           <div class="brand">
             <span class="brand-badge" aria-hidden="true">
-              <svg
-                viewBox="0 0 4 5"
-                width="14"
-                height="17"
-                shape-rendering="crispEdges"
-              >
-                <path
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                  d="M0 0h4v3H1v2H0ZM1 1h2v1H1Z"
-                />
+              <svg viewBox="0 0 4 5" width="14" height="17" shape-rendering="crispEdges">
+                <path fill="currentColor" fill-rule="evenodd" d="M0 0h4v3H1v2H0ZM1 1h2v1H1Z" />
               </svg>
             </span>
             <span class="brand-name">PolliChat</span>
@@ -71,9 +62,7 @@
 
         <div class="sidebar-foot">
           <button id="openSettingsBtn" type="button" class="profile-btn">
-            <span class="profile-badge"
-              ><span data-icon="sliders" data-size="16"></span
-            ></span>
+            <span class="profile-badge"><span data-icon="sliders" data-size="16"></span></span>
             Settings
           </button>
         </div>
@@ -88,6 +77,17 @@
             class="icon-btn mobile-only"
           >
             <span data-icon="menu" data-size="20"></span>
+          </button>
+
+          <h1 id="topbarTitle" class="topbar-title"></h1>
+
+          <button
+            id="topbarNewChatBtn"
+            type="button"
+            aria-label="New chat"
+            class="icon-btn mobile-only"
+          >
+            <span data-icon="plus" data-size="19"></span>
           </button>
         </header>
 
@@ -110,11 +110,7 @@
                 ></textarea>
 
                 <div class="select-wrap">
-                  <select
-                    id="modelSelect"
-                    aria-label="Model"
-                    title="Model"
-                  ></select>
+                  <select id="modelSelect" aria-label="Model" title="Model"></select>
                 </div>
 
                 <button id="sendBtn" type="submit" class="send-btn"></button>
@@ -166,12 +162,7 @@
             <label for="freeOnlyToggle">Free models only</label>
             <p id="modelStatus" class="help"></p>
           </div>
-          <input
-            id="freeOnlyToggle"
-            type="checkbox"
-            class="switch"
-            role="switch"
-          />
+          <input id="freeOnlyToggle" type="checkbox" class="switch" role="switch" />
         </div>
 
         <div class="field">

@@ -363,10 +363,32 @@ button {
   background: rgba(30, 25, 10, 0.35);
 }
 
-/* ---- Top bar (mobile only) --------------------------------------------- */
+/* ---- Top bar ------------------------------------------------------------
+   A slim strip that names the open chat. On desktop it is title-only and
+   nearly invisible; on narrow screens it also carries the menu/new-chat
+   controls (see the media query below). */
 
 .topbar {
-  display: none;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 20px;
+  border-bottom: 1px solid transparent;
+}
+
+.topbar-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ---- Messages ---------------------------------------------------------- */
@@ -386,6 +408,21 @@ button {
   max-width: calc(var(--column) + 40px);
   margin: 0 auto;
   padding: 36px 20px 24px;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.msg {
+  animation: rise-in 0.28s ease-out both;
 }
 
 .msg-user {
@@ -670,9 +707,12 @@ button {
 }
 
 .suggestion {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   width: 100%;
-  padding: 12px 12px;
+  padding: 12px 14px;
   border-radius: 10px;
   font-size: 15px;
   color: var(--muted);
@@ -685,6 +725,22 @@ button {
 .suggestion:hover {
   background: var(--hover);
   color: var(--text);
+}
+
+.suggestion .icon {
+  flex-shrink: 0;
+  color: var(--faint);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
+}
+
+.suggestion:hover .icon {
+  color: var(--muted);
+  opacity: 1;
+  transform: none;
 }
 
 /* ---- Composer ---------------------------------------------------------- */
@@ -1100,11 +1156,16 @@ option {
   }
 
   .topbar {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
     min-height: calc(52px + env(safe-area-inset-top, 0px));
-    padding: env(safe-area-inset-top, 0px) 10px 0;
+    padding: env(safe-area-inset-top, 0px) 6px 0;
+    border-bottom-color: var(--line);
+    background: var(--bg);
+  }
+
+  .topbar-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
   }
 
   .thread {

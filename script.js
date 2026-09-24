@@ -60,6 +60,7 @@ const ICONS = {
   menu: '<path d="M4 7h16M4 12h16M4 17h10"/>',
   arrowUp: '<path d="M12 19V5M5 12l7-7 7 7"/>',
   stop: '<rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/>',
+  arrowRight: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
   refresh:
@@ -767,6 +768,12 @@ function renderHeader() {
   renderModelSelect();
 }
 
+function renderTopbar() {
+  const chat = activeChat();
+
+  $("topbarTitle").textContent = chat && chat.messages.length ? chat.title : "";
+}
+
 function renderSizes() {
   $("sizeOptions").replaceChildren(
     ...SIZES.map(([value, label]) => {
@@ -1082,9 +1089,13 @@ function renderEmpty() {
   const list = el("div", "suggestions");
 
   SUGGESTIONS[state.mode].forEach((suggestion) => {
-    const row = el("button", "suggestion", suggestion);
+    const row = el("button", "suggestion");
 
     row.type = "button";
+
+    row.append(el("span", "", suggestion));
+
+    row.insertAdjacentHTML("beforeend", icon("arrowRight", 15));
 
     row.onclick = () => {
       input.value = suggestion;
@@ -1184,6 +1195,7 @@ function updateComposer() {
 function renderAll() {
   renderSidebar();
   renderHeader();
+  renderTopbar();
   renderMessages();
   updateComposer();
 }
@@ -1245,6 +1257,100 @@ function finish(chat) {
   if (state.activeChatId === chat.id) {
     renderMessages();
   }
+
+  maybeTitleChat(chat);
+}
+
+// Ask the model for a short, real title once a chat has its first exchange,
+// replacing the placeholder (the raw first message, truncated).
+async function maybeTitleChat(chat) {
+  if (chat.titled) {
+    return;
+  }
+
+  const firstUser = chat.messages.find((m) => m.role === "user");
+
+  const hasReply = chat.messages.some(
+    (m) =>
+      m.role === "assistant" && !m.error && (m.content || m.kind === "image"),
+  );
+
+  if (!firstUser || !hasReply) {
+    return;
+  }
+
+  chat.titled = true;
+
+  const prompt =
+    firstUser.content ||
+    (chat.messages.find((m) => m.kind === "image")?.prompt ?? "");
+
+  if (!prompt.trim()) {
+    return;
+  }
+
+  const title = await generateTitle(prompt);
+
+  if (title && chat.title !== title) {
+    chat.title = title;
+
+    save();
+
+    if (state.activeChatId === chat.id) {
+      renderTopbar();
+    }
+
+    renderSidebar();
+  }
+}
+
+async function generateTitle(prompt) {
+  const body = JSON.stringify({
+    model: state.textModel,
+    stream: false,
+    messages: [
+      {
+        role: "system",
+        content:
+          "Write a short chat title that summarizes the user's message. Reply with the title only: no quotes, no punctuation at the end, no more than 5 words.",
+      },
+      {
+        role: "user",
+        content: prompt.slice(0, 600),
+      },
+    ],
+  });
+
+  for (const url of TEXT_ENDPOINTS) {
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: headers(),
+        body,
+      });
+
+      if (!res.ok) {
+        continue;
+      }
+
+      const data = await res.json();
+
+      const raw =
+        data?.choices?.[0]?.message?.content || data?.choices?.[0]?.text || "";
+
+      const title = raw
+        .trim()
+        .split("\n")[0]
+        .replace(/^["'“”‘’*#\s]+|["'“”‘’*.\s]+$/g, "")
+        .slice(0, 60);
+
+      if (title) {
+        return title;
+      }
+    } catch {}
+  }
+
+  return null;
 }
 
 async function runText(chat) {
@@ -1567,6 +1673,7 @@ composer.addEventListener("submit", (e) => {
   save();
 
   renderSidebar();
+  renderTopbar();
 
   if (imageMode) {
     runImage(chat, text);
@@ -1611,6 +1718,8 @@ $("newChatBtn").addEventListener("click", () => {
   newChat();
   setSidebar(false);
 });
+
+$("topbarNewChatBtn").addEventListener("click", () => newChat());
 
 $("menuBtn").addEventListener("click", () => setSidebar(true));
 
